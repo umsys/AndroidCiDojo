@@ -5,8 +5,8 @@ plugins {
 
 
 def app_versions = [:]
-app_versions.version_code = 2
-app_versions.version_name = "2.0.1"
+app_versions.version_code = 3
+app_versions.version_name = "2.0.2"
 
 ext.app_version_name = app_versions.version_name
 task getAppVersionName doLast {
