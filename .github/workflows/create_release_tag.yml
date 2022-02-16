@@ -22,7 +22,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const env = process.env
-            await github.rest.git.createTag({
+            const tagResult = await github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: env.VERSION_NAME,
@@ -30,3 +30,10 @@ jobs:
               object: context.sha,
               type: 'commit',
             })
+
+            const referenceResult = await github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${env.VERSION_NAME}`,
+              sha: context.sha
+            });
