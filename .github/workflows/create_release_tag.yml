@@ -16,5 +16,5 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
       - name: Create Release Tag
         run: |
-          git tag ver$(./gradlew -q getAppVersionName)
-          git push origin ver$(./gradlew -q getAppVersionName)
+          git tag ver$(./gradlew -q getAppVersionName | tail -n 1)
+          git push origin ver$(./gradlew -q getAppVersionName | tail -n 1)
