@@ -23,7 +23,7 @@ jobs:
             github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag: ${VERSION_NAME},
+              tag: env.VERSION_NAME,
               message: '',
               object: context.sha,
               type: 'commit',
