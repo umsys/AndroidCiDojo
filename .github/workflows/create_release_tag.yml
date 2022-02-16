@@ -11,17 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'develop')
     steps:
+      - uses: actions/checkout@v2
+
+      - name: Get Version Name
+        run: echo "VERSION_NAME=ver$(./gradlew -q getAppVersionName)" >> $GITHUB_ENV
       - name: Create Release Tag
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const versionName = ver$(./gradlew -q getAppVersionName | tail -n 1)
-
             github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag: versionName,
+              tag: ${VERSION_NAME},
               message: '',
               object: context.sha,
               type: 'commit',
