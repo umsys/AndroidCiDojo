@@ -15,5 +15,5 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
       - run: |
-          git tag -a ver$(./gradlew getAppVersionName)
+          git tag -a ver$(./gradlew getAppVersionName) -m ver$(./gradlew getAppVersionName)
           git push origin ver$(./gradlew getAppVersionName)
