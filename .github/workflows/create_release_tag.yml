@@ -20,6 +20,8 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const env = process.env;
+            
             github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
