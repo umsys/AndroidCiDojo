@@ -11,12 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'develop')
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{secrets.GITHUB_TOKEN}}
       - name: Create Release Tag
-        run: |
-          git config --global user.email "masayoshi.uchiyama@zozo.com"
-          git config --global user.name "umsys"
-          git tag -a ver$(./gradlew -q getAppVersionName | tail -n 1) -m ""
-          git push origin ver$(./gradlew -q getAppVersionName | tail -n 1)
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const versionName = ver$(./gradlew -q getAppVersionName | tail -n 1)
+
+            github.rest.git.createTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: versionName,
+              message: '',
+              object: context.sha,
+              type: 'commit',
+            })
