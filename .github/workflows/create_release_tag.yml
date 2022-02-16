@@ -22,7 +22,7 @@ jobs:
           script: |
             const env = process.env
 
-            github.git.createTag({
+            await github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: env.VERSION_NAME,
