@@ -16,5 +16,7 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
       - name: Create Release Tag
         run: |
+          git config --global user.email "masayoshi.uchiyama@zozo.com"
+          git config --global user.name "umsys"
           git tag -a ver$(./gradlew -q getAppVersionName | tail -n 1) -m ""
           git push origin ver$(./gradlew -q getAppVersionName | tail -n 1)
