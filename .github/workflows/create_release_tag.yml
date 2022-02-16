@@ -1,0 +1,19 @@
+
+name: Create Release Tag
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'develop')
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git tag ver$(./gradlew getAppVersionName)
+          git push origin ver$(./gradlew getAppVersionName)
+          
