@@ -23,17 +23,22 @@ jobs:
           script: |
             const env = process.env
             const tagResult = await github.rest.git.createTag({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              ...context.repo,
               tag: env.VERSION_NAME,
               message: '',
               object: context.sha,
               type: 'commit',
             })
 
-            const referenceResult = await github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+            await github.rest.git.createRef({
+              ...context.repo,
               ref: `refs/tags/${env.VERSION_NAME}`,
-              sha: context.sha
+              sha: tagResult.data.sha
+            });
+
+            await github.rest.repos.createRelease({
+              ...context.repo,
+              tag_name: env.VERSION_NAME,
+              name: env.VERSION_NAME,
+              generate_release_notes: true
             });
