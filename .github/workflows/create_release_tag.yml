@@ -12,7 +12,7 @@ jobs:
     if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'develop')
     steps:
       - name: Create Release Tag
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
