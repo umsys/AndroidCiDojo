@@ -1,11 +1,10 @@
 name: Create Release Tag
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-    types:
-      - closed
+
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -18,7 +17,6 @@ jobs:
       - name: Create Release Tag
         uses: actions/github-script@v6
         with:
-          debug: true
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const env = process.env
