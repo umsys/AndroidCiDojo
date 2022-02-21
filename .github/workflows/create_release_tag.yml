@@ -12,14 +12,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get Version Name
-        run: echo "VERSION_NAME=ver$(./gradlew -q getAppVersionName)" >> $GITHUB_ENV
+      - name: Get Version Name & Code
+        run: |
+          echo "VERSION_NAME=ver$(./gradlew -q getAppVersionName)" >> $GITHUB_ENV
+          echo "VERSION_CODE=$(./gradlew -q getAppVersionCode)" >> $GITHUB_ENV
       - name: Create Release Tag
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const env = process.env
+            const releaseNoteMessage = env.VERSION_NAME + '('+ env.VERSION_CODE + ')'
             const tagResult = await github.rest.git.createTag({
               ...context.repo,
               tag: env.VERSION_NAME,
@@ -38,5 +41,6 @@ jobs:
               ...context.repo,
               tag_name: env.VERSION_NAME,
               name: env.VERSION_NAME,
+              body: releaseNoteMessage,
               generate_release_notes: true
             });
