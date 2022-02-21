@@ -1,10 +1,11 @@
 name: Create Release Tag
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-
+    types:
+      - closed
 jobs:
   main:
     runs-on: ubuntu-latest
