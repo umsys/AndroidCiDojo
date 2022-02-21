@@ -8,7 +8,11 @@ def app_versions = [:]
 app_versions.version_code = 8
 app_versions.version_name = "3.0.3"
 
+ext.app_version_code = app_versions.version_code
 ext.app_version_name = app_versions.version_name
+task getAppVersionCOde doLast {
+    println app_version_code
+}
 task getAppVersionName doLast {
     println app_version_name
 }
